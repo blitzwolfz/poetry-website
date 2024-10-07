@@ -1,0 +1,41 @@
+.poetry-detail {
+  max-width: 700px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+  h2 {
+    text-align: center;
+    color: #00203F;
+    margin-bottom: 20px;
+  }
+
+  .language-switcher {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+
+    button {
+      background-color: #00203F;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      margin: 0 10px;
+      cursor: pointer;
+      border-radius: 5px;
+
+      &:hover {
+        background-color: darken(#00203F, 10%);
+      }
+    }
+  }
+
+  p {
+    font-size: 1.2rem;
+    color: #333;
+    text-align: justify;
+  }
+}

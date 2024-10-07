@@ -1,0 +1,68 @@
+/* Navbar container */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+/* Hamburger button */
+.navbar-toggle {
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  background-color: #00203F;
+  color: white;
+  font-size: 30px;
+  border: none;
+  cursor: pointer;
+  z-index: 1100;
+}
+
+/* Navbar menu */
+.navbar-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px;
+  height: 100%;
+  background-color: #00203F;
+  transform: translateX(-100%); /* Hide off-screen by default */
+  transition: transform 0.3s ease;
+  padding-top: 60px; /* Space for the hamburger button */
+  z-index: 1000;
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      margin: 15px 0;
+
+      a, button {
+        color: white;
+        text-decoration: none;
+        background: none;
+        border: none;
+        font-size: 1.2rem;
+        width: 100%;
+        padding: 10px 20px;
+        text-align: left;
+        display: block;
+        cursor: pointer;
+
+        &:hover {
+          background-color: #ADEFD1;
+          color: #00203F;
+        }
+      }
+    }
+  }
+}
+
+/* When the navbar is open */
+.navbar-menu.open {
+  transform: translateX(0); /* Slide the menu into view */
+}

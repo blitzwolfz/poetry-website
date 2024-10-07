@@ -1,0 +1,33 @@
+@import './theme.scss';
+
+.poetry-landing {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px;
+  text-align: center;
+
+  h2 {
+    color: $primary-color;
+    margin-bottom: 20px;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+
+    li {
+      margin: 15px 0;
+
+      a {
+        text-decoration: none;
+        color: $primary-color;
+        font-size: 18px;
+        transition: color 0.3s ease;
+
+        &:hover {
+          color: darken($primary-color, 10%);
+        }
+      }
+    }
+  }
+}

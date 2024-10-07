@@ -1,0 +1,70 @@
+@import './theme.scss';
+
+.login-signup {
+  width: 300px;
+  margin: 100px auto;
+  padding: 30px;
+  border: 1px solid $primary-color;
+  background-color: $bg-color;
+  border-radius: 10px;
+
+  h2 {
+    text-align: center;
+    color: $primary-color;
+    margin-bottom: 20px;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+
+    input {
+      margin-bottom: 10px;
+    }
+
+    button {
+      margin-top: 10px;
+    }
+  }
+
+  .error-message {
+    color: $error-color;
+  }
+
+  button {
+    width: 100%;
+    padding: 10px;
+    background-color: $primary-color;
+    color: $bg-color;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: darken($primary-color, 10%);
+    }
+  }
+
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+  .modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 18px;
+    color: black;
+  }
+
+}

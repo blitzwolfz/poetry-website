@@ -1,0 +1,28 @@
+@import './theme.scss';
+
+.home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 50px;
+
+  h1 {
+    color: $primary-color;
+  }
+
+  nav {
+    margin-top: 20px;
+
+    a {
+      text-decoration: none;
+      color: $primary-color;
+      font-weight: bold;
+      margin: 0 15px;
+      transition: color 0.3s ease;
+
+      &:hover {
+        color: darken($primary-color, 10%);
+      }
+    }
+  }
+}

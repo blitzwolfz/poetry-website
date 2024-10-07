@@ -10,6 +10,55 @@ export const getPoems = async (req, res) => {
     }
 };
 
+// Add a comment to a poem
+export const addComment = async (req, res) => {
+    const { id } = req.params;  // Poem ID
+    const { text, author } = req.body;  // Comment data
+
+    try {
+        const poem = await Poem.findById(id);
+        if (!poem) {
+            return res.status(404).json({ message: 'Poem not found' });
+        }
+
+        // Create the comment object
+        const comment = { author, text, createdAt: new Date() };
+
+        // Add the comment to the poem's comments array
+        poem.comments.push(comment);
+        await poem.save();
+
+        res.status(201).json({ message: 'Comment added successfully', comment });
+    } catch (error) {
+        console.error('Error adding comment:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+// Delete a comment by comment ID in a specific poem's comments array
+export const deleteComment = async (req, res) => {
+    const { id, commentId } = req.params;  // Get poem ID and comment ID
+
+    try {
+        const poem = await Poem.findById(id);
+
+        if (!poem) {
+            return res.status(404).json({ message: 'Poem not found' });
+        }
+
+        // Find the comment by its ID and remove it from the comments array
+        poem.comments = poem.comments.filter(comment => comment._id.toString() !== commentId);
+
+        // Save the updated poem document
+        await poem.save();
+
+        res.status(200).json({ message: 'Comment deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting comment:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
 // Fetch a single poem by ID
 export const getPoemById = async (req, res) => {
     try {
@@ -53,5 +102,15 @@ export const deletePoem = async (req, res) => {
     } catch (error) {
         console.error('Error deleting poem:', error);  // Log the error
         res.status(500).json({ error: 'Error deleting poem' });
+    }
+};
+
+// Update an existing poem
+export const updatePoem = async (req, res) => {
+    try {
+        const poem = await Poem.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        res.status(200).json(poem);
+    } catch (error) {
+        res.status(500).json({ error: 'Error updating poem' });
     }
 };

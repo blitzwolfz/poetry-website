@@ -2,7 +2,8 @@ import express from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import User from '../models/User';  // Import the User model
-import { checkAuth } from '../middleware/auth';  // Middleware to protect routes
+import { checkAuth } from '../middleware/auth';
+import {deleteUser, getUsers, makeUserAdmin, removeUserAdmin} from "../controllers/UserController";  // Middleware to protect routes
 
 const router = express.Router();
 
@@ -84,5 +85,17 @@ router.post('/login', async (req, res) => {
         res.status(500).send('Server error');
     }
 });
+
+// Route to delete a user
+router.delete('/user/:userId', deleteUser);
+
+// Route to make a user an admin
+router.put('/user/:userId/make-admin', makeUserAdmin);
+
+// Remove admin status from a user
+router.put('/user/:userId/remove-admin', removeUserAdmin);
+
+// Route to get all users
+router.get('/users', getUsers);  // Fetch all users
 
 export default router;

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';  // Import Quill styles
 import '../styles/AdminDashboard.scss';
 
 // Define the Poem and User interface for TypeScript
@@ -24,15 +26,20 @@ const AdminDashboard: React.FC = () => {
     const [poems, setPoems] = useState<Poem[]>([]); // Initialize as an empty array for poems
     const [users, setUsers] = useState<User[]>([]); // Initialize as an empty array for users
     const [selectedPoem, setSelectedPoem] = useState<Poem | null>(null);  // Track the selected poem
-    const [selectedUser, setSelectedUser] = useState<string | null>(null);  // Track the selected user
+    const [selectedUser, setSelectedUser] = useState<User | null>(null);  // Track the selected user
     const [newPoem, setNewPoem] = useState({
         title: '',
         contentEnglish: '',
         contentGreek: ''
     });
     const [editMode, setEditMode] = useState<boolean>(false);  // Track whether we are editing a poem
+    //@ts-ignore
     const [loading, setLoading] = useState<boolean>(true); // Add loading state
+    //@ts-ignore
     const [error, setError] = useState<string | null>(null); // Error handling
+
+    // React Quill key reset, to forcefully clear content
+    const [quillKey, setQuillKey] = useState(0);
 
     // Fetch existing poems and users from the API
     useEffect(() => {
@@ -54,7 +61,7 @@ const AdminDashboard: React.FC = () => {
     }, []);
 
     // Handle input change for the new poem form
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setNewPoem({ ...newPoem, [e.target.name]: e.target.value });
     };
 
@@ -66,9 +73,8 @@ const AdminDashboard: React.FC = () => {
             try {
                 const response = await axiosInstance.put(`/poetry/${selectedPoem._id}`, newPoem);  // Update poem
                 setPoems(poems.map(poem => poem._id === selectedPoem._id ? response.data : poem));  // Update the poem in the state
-                setNewPoem({ title: '', contentEnglish: '', contentGreek: '' });  // Clear the form
-                setEditMode(false);  // Exit edit mode
-                setSelectedPoem(null);  // Clear selected poem
+                // Clear the form and exit edit mode
+                resetForm();  // Reset the form after updating
             } catch (error) {
                 console.error('Error updating poem:', error);
                 setError(error + ' Failed to update poem.');
@@ -78,11 +84,39 @@ const AdminDashboard: React.FC = () => {
             try {
                 const response = await axiosInstance.post('/poetry', newPoem);
                 setPoems([...poems, response.data]); // Add the new poem to the list
-                setNewPoem({ title: '', contentEnglish: '', contentGreek: '' }); // Clear the form
+                // Clear the form after creating the poem
+                resetForm();
             } catch (error) {
                 console.error('Error adding poem:', error);
                 setError(error + ' Failed to add poem.');
             }
+        }
+    };
+
+    // Reset the form fields and exit edit mode
+    const resetForm = () => {
+        setNewPoem({ title: '', contentEnglish: '', contentGreek: '' });  // Clear the form fields
+        setEditMode(false);  // Exit edit mode
+        setSelectedPoem(null);  // Clear selected poem
+        setQuillKey(prevKey => prevKey + 1);  // Force React Quill to reset
+    };
+
+    // Handle the React Quill input change
+    const handleContentEnglishChange = (content: string) => {
+        setNewPoem({ ...newPoem, contentEnglish: content });
+    };
+
+    const handleContentGreekChange = (content: string) => {
+        setNewPoem({ ...newPoem, contentGreek: content });
+    };
+
+    // Handle selecting a poem for editing
+    const handleEditPoem = (poemId: string) => {
+        const poem = poems.find(p => p._id === poemId);
+        if (poem) {
+            setNewPoem({ title: poem.title, contentEnglish: poem.contentEnglish, contentGreek: poem.contentGreek });
+            setSelectedPoem(poem);
+            setEditMode(true);  // Enter edit mode
         }
     };
 
@@ -100,22 +134,12 @@ const AdminDashboard: React.FC = () => {
         }
     };
 
-    // Handle selecting a poem for editing
-    const handleEditPoem = (poemId: string) => {
-        const poem = poems.find(p => p._id === poemId);
-        if (poem) {
-            setNewPoem({ title: poem.title, contentEnglish: poem.contentEnglish, contentGreek: poem.contentGreek });
-            setSelectedPoem(poem);
-            setEditMode(true);  // Enter edit mode
-        }
-    };
-
     // Handle user deletion
     const handleDeleteUser = async () => {
         if (selectedUser) {
             try {
-                await axiosInstance.delete(`/user/${selectedUser}`);
-                setUsers(users.filter(user => user._id !== selectedUser)); // Remove the deleted user from the list
+                await axiosInstance.delete(`/user/${selectedUser._id}`);
+                setUsers(users.filter(user => user._id !== selectedUser._id)); // Remove the deleted user from the list
                 setSelectedUser(null);  // Clear the selected user
             } catch (error) {
                 console.error('Error deleting user:', error);
@@ -128,8 +152,8 @@ const AdminDashboard: React.FC = () => {
     const handlePromoteUser = async () => {
         if (selectedUser) {
             try {
-                await axiosInstance.put(`/user/${selectedUser}/make-admin`);
-                setUsers(users.map(user => (user._id === selectedUser ? { ...user, isAdmin: true } : user))); // Update user to admin
+                await axiosInstance.put(`/user/${selectedUser._id}/make-admin`);
+                setUsers(users.map(user => (user._id === selectedUser._id ? { ...user, isAdmin: true } : user))); // Update user to admin
                 setSelectedUser(null);  // Clear the selected user
             } catch (error) {
                 console.error('Error promoting user to admin:', error);
@@ -142,8 +166,8 @@ const AdminDashboard: React.FC = () => {
     const handleRemoveAdmin = async () => {
         if (selectedUser) {
             try {
-                await axiosInstance.put(`/user/${selectedUser}/remove-admin`);
-                setUsers(users.map(user => (user._id === selectedUser ? { ...user, isAdmin: false } : user))); // Update user admin status
+                await axiosInstance.put(`/user/${selectedUser._id}/remove-admin`);
+                setUsers(users.map(user => (user._id === selectedUser._id ? { ...user, isAdmin: false } : user))); // Update user admin status
                 setSelectedUser(null);  // Clear the selected user
             } catch (error) {
                 console.error('Error removing admin status:', error);
@@ -154,41 +178,34 @@ const AdminDashboard: React.FC = () => {
 
     return (
         <div className="admin-dashboard">
-            <h2>Admin Dashboard</h2>
-
-            {/* Display loading or error */}
-            {loading && <p>Loading...</p>}
-            {error && <p className="error-message">{error}</p>}
+            <h2>{editMode ? 'Edit Poem' : 'Add New Poem'}</h2>
 
             {/* Add or edit poem form */}
-            <div className="post-editor">
-                <h3>{editMode ? 'Edit Poem' : 'Add New Poem'}</h3>
-                <form onSubmit={handleSubmitPoem}>
-                    <input
-                        type="text"
-                        name="title"
-                        placeholder="Title"
-                        value={newPoem.title}
-                        onChange={handleInputChange}
-                        required
-                    />
-                    <textarea
-                        name="contentEnglish"
-                        placeholder="Poem in English"
-                        value={newPoem.contentEnglish}
-                        onChange={handleInputChange}
-                        required
-                    />
-                    <textarea
-                        name="contentGreek"
-                        placeholder="Poem in Greek"
-                        value={newPoem.contentGreek}
-                        onChange={handleInputChange}
-                        required
-                    />
-                    <button type="submit">{editMode ? 'Update Poem' : 'Add Poem'}</button>
-                </form>
-            </div>
+            <form onSubmit={handleSubmitPoem}>
+                <input
+                    type="text"
+                    name="title"
+                    placeholder="Title"
+                    value={newPoem.title}
+                    onChange={handleInputChange}
+                    required
+                />
+                <h3>Poem in English</h3>
+                <ReactQuill
+                    key={quillKey + '-en'}  // Force reset of React Quill editor when key changes
+                    theme="snow"
+                    value={newPoem.contentEnglish}
+                    onChange={handleContentEnglishChange}
+                />
+                <h3>Poem in Greek</h3>
+                <ReactQuill
+                    key={quillKey + '-gr'}  // Force reset of React Quill editor when key changes
+                    theme="snow"
+                    value={newPoem.contentGreek}
+                    onChange={handleContentGreekChange}
+                />
+                <button type="submit">{editMode ? 'Update Poem' : 'Add Poem'}</button>
+            </form>
 
             {/* Poem Management */}
             <div className="poem-management">
@@ -204,6 +221,7 @@ const AdminDashboard: React.FC = () => {
 
                 {selectedPoem && (
                     <div className="poem-actions">
+                        <button onClick={resetForm}>Cancel Edit</button> {/* Cancel edit button */}
                         <button onClick={handleDeletePoem}>Delete Poem</button>
                     </div>
                 )}
@@ -212,7 +230,7 @@ const AdminDashboard: React.FC = () => {
             {/* User Management */}
             <div className="user-management">
                 <h3>Manage Users</h3>
-                <select value={selectedUser || ''} onChange={(e) => setSelectedUser(e.target.value)}>
+                <select value={selectedUser?._id || ''} onChange={(e) => setSelectedUser(users.find(user => user._id === e.target.value) || null)}>
                     <option value="">Select a user</option>
                     {users.map(user => (
                         <option key={user._id} value={user._id}>
@@ -224,7 +242,7 @@ const AdminDashboard: React.FC = () => {
                 {selectedUser && (
                     <div className="user-actions">
                         <button onClick={handleDeleteUser}>Delete User</button>
-                        {!users.find(user => user._id === selectedUser)?.isAdmin ? (
+                        {!selectedUser.isAdmin ? (
                             <button onClick={handlePromoteUser}>Make Admin</button>
                         ) : (
                             <button onClick={handleRemoveAdmin}>Remove Admin</button>

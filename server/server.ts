@@ -26,6 +26,7 @@ mongoose.connection.once('open', () => {
         mongoose.connection.db?.databaseName
     );
 });
+
 // Start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

@@ -12,7 +12,6 @@ interface Poem {
 
 const PoetryLanding: React.FC = () => {
     const [poems, setPoems] = useState<Poem[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
     // Fetch poems from the API
@@ -20,43 +19,26 @@ const PoetryLanding: React.FC = () => {
         const fetchPoems = async () => {
             try {
                 const response = await axios.get('http://localhost:5000/poetry');
-                if (Array.isArray(response.data)) {
-                    setPoems(response.data);
-                } else {
-                    setError('Invalid response format from the server');
-                }
+                setPoems(response.data);
             } catch (error) {
                 console.error('Error fetching poems:', error);
-                setError('Failed to fetch poems');
-            } finally {
-                setLoading(false);
+                setError('Failed to fetch poems.');
             }
         };
-
         fetchPoems();
     }, []);
-
-    if (loading) {
-        return <p>Loading poems...</p>;
-    }
-
-    if (error) {
-        return <p className="error-message">{error}</p>;
-    }
-
-    if (!Array.isArray(poems) || poems.length === 0) {
-        return <p>No poems available.</p>;
-    }
 
     return (
         <div className="poetry-landing">
             <h2>Poetry Landing</h2>
+            {error && <p className="error-message">{error}</p>}
             <ul className="poetry-list">
                 {poems.map(poem => (
                     <li key={poem._id} className="poetry-card">
                         <Link to={`/poetry/${poem._id}`} className="poetry-card-link">
-                            <h3>{poem.title}</h3>
-                            <p>{poem.contentEnglish.slice(0, 100)}...</p>
+                            <h1 className="poem-title">{poem.title}</h1>
+                            {/* Render a snippet of the content with HTML formatting */}
+                            <div className="poem-snippet" dangerouslySetInnerHTML={{ __html: poem.contentEnglish.slice(0, 200) }} />
                             <p className="read-more">Read More</p>
                         </Link>
                     </li>

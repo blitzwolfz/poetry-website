@@ -32,6 +32,7 @@
   transition: transform 0.3s ease;
   padding-top: 60px; /* Space for the hamburger button */
   z-index: 1000;
+  overflow: hidden; /* Prevent hover overflow outside the navbar */
 
   ul {
     list-style: none;
@@ -41,6 +42,7 @@
     li {
       margin: 15px 0;
 
+      /* Combined selector for both anchor links and buttons */
       a, button {
         color: white;
         text-decoration: none;

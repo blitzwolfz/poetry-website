@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import '../styles/Navbar.scss'; // Assuming your styles are in this file
 
 const Navbar: React.FC = () => {
@@ -12,6 +12,12 @@ const Navbar: React.FC = () => {
         setIsOpen(!isOpen);
     };
 
+    // Handle navigation
+    const handleNavigation = (path: string) => {
+        navigate(path);
+        setIsOpen(false); // Close the menu after navigating
+    };
+
     // Handle logout
     const handleLogout = () => {
         localStorage.removeItem('token');
@@ -21,10 +27,8 @@ const Navbar: React.FC = () => {
         navigate('/login'); // Redirect to login page after logout
     };
 
-    // Check if the user is logged in by looking for the token
+    // Check if the user is logged in and if the user is an admin
     const isLoggedIn = !!localStorage.getItem('token') || !!sessionStorage.getItem('token');
-
-    // Check if the user is an admin by looking for 'isAdmin' in localStorage/sessionStorage
     const isAdmin = localStorage.getItem('isAdmin') === 'true' || sessionStorage.getItem('isAdmin') === 'true';
 
     // Close the menu if the user clicks outside of it
@@ -54,14 +58,26 @@ const Navbar: React.FC = () => {
             </button>
 
             {/* Navbar Menu (Sliding from left) */}
-            <div className={`navbar-menu ${isOpen ? 'open' : ''}`} ref={menuRef}>
+            <div
+                className={`navbar-menu ${isOpen ? 'open' : ''}`}
+                ref={menuRef}
+                style={{
+                    display: isOpen ? 'block' : 'none',  // Hide when closed
+                }}
+            >
                 <ul>
-                    <li><Link to="/" onClick={toggleMenu}>Home</Link></li>
-                    <li><Link to="/poetry" onClick={toggleMenu}>Poetry</Link></li>
+                    <li>
+                        <button onClick={() => handleNavigation('/')}>Home</button>
+                    </li>
+                    <li>
+                        <button onClick={() => handleNavigation('/poetry')}>Poetry</button>
+                    </li>
 
-                    {/* Show Admin Dashboard link if the user is an admin */}
+                    {/* Conditionally show the Admin Dashboard link if the user is an admin */}
                     {isAdmin && (
-                        <li><Link to="/admin" onClick={toggleMenu}>Admin Dashboard</Link></li>
+                        <li>
+                            <button onClick={() => handleNavigation('/admin')}>Admin Dashboard</button>
+                        </li>
                     )}
 
                     {/* Show Logout if user is logged in, otherwise show Login */}
@@ -71,7 +87,7 @@ const Navbar: React.FC = () => {
                         </li>
                     ) : (
                         <li>
-                            <button onClick={() => { navigate('/login'); toggleMenu(); }}>Login</button>
+                            <button onClick={() => { handleNavigation('/login'); toggleMenu(); }}>Login</button>
                         </li>
                     )}
                 </ul>

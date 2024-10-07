@@ -7,6 +7,7 @@ import AdminDashboard from './pages/AdminDashboard';
 import './styles/theme.scss';
 import PoemDetail from "./components/PoetryDetail.tsx";
 import Navbar from './components/Navbar';
+import PDFViewer from "./components/PDFViewer.tsx";
 
 // Function to check if the user is an admin
 const isAdmin = () => {
@@ -20,26 +21,31 @@ const ProtectedAdminRoute = ({ children }: { children: React.ReactNode }) => {
 
 const App: React.FC = () => {
     return (
-        <Router>
-            <div className="app">
-                {/* Include the Navbar on all pages */}
-                <Navbar />
-                <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/poetry" element={<PoetryLanding />} />
-                    <Route path="/poetry/:id" element={<PoemDetail />} />
-                    <Route path="/login" element={<LoginSignup />} />
-                    <Route
-                        path="/admin"
-                        element={
-                            <ProtectedAdminRoute>
-                                <AdminDashboard />
-                            </ProtectedAdminRoute>
-                        }
-                    />
-                </Routes>
+        <div className="app-container">
+            <div className="main-content">
+                <Router>
+                    <div className="app">
+                        {/* Include the Navbar on all pages */}
+                        <Navbar />
+                        <Routes>
+                            <Route path="/" element={<Home />} />
+                            <Route path="/poetry" element={<PoetryLanding />} />
+                            <Route path="/poetry/:id" element={<PoemDetail />} />
+                            <Route path="/pdf/:pdfName" element={<PDFViewer />} />
+                            <Route path="/login" element={<LoginSignup />} />
+                            <Route
+                                path="/admin"
+                                element={
+                                    <ProtectedAdminRoute>
+                                        <AdminDashboard />
+                                    </ProtectedAdminRoute>
+                                }
+                            />
+                        </Routes>
+                    </div>
+                </Router>
             </div>
-        </Router>
+        </div>
     );
 };
 

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/PoetryDetailPage.scss';
+const URL = import.meta.env.VITE_ADDRESS;
 
 interface Poem {
     title: string;
@@ -16,7 +17,7 @@ const PoetryDetailPage: React.FC = () => {
 
     useEffect(() => {
         const fetchPoem = async () => {
-            const response = await axios.get(`http://localhost:5000/poetry/${id}`);
+            const response = await axios.get(`${URL}/poetry/${id}`);
             setPoem(response.data);
         };
         fetchPoem();

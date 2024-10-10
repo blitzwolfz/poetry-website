@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/PoetryDetail.scss';
+const URL = import.meta.env.VITE_ADDRESS;
 
 interface Poem {
     _id: string;
@@ -27,7 +28,7 @@ const PoetryDetail: React.FC = () => {
     useEffect(() => {
         const fetchPoem = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/poetry/${id}`);
+                const response = await axios.get(`${URL}/poetry/${id}`);
                 setPoem(response.data);
             } catch (error) {
                 console.error('Error fetching poem:', error);
@@ -41,7 +42,7 @@ const PoetryDetail: React.FC = () => {
     const handleSubmitComment = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            const response = await axios.post(`http://localhost:5000/poetry/${id}/comments`, {
+            const response = await axios.post(`${URL}/poetry/${id}/comments`, {
                 text: newComment,
                 author: username
             });
@@ -60,7 +61,7 @@ const PoetryDetail: React.FC = () => {
     // Handle comment deletion by admin
     const handleDeleteComment = async (commentId: string) => {
         try {
-            await axios.delete(`http://localhost:5000/poetry/${id}/comments/${commentId}`);
+            await axios.delete(`${URL}/poetry/${id}/comments/${commentId}`);
             // Remove the deleted comment from the state
             if (poem) {
                 // @ts-ignore

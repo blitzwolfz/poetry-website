@@ -3,6 +3,9 @@ import axios from "axios";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css"; // Import Quill styles
 import "../styles/AdminDashboard.scss";
+const URL = import.meta.env.VITE_ADDRESS;
+
+
 
 // Define the Poem and User interface for TypeScript
 interface Poem {
@@ -19,7 +22,7 @@ interface User {
 }
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:5000", // Make sure this points to the correct backend
+  baseURL: URL, // Make sure this points to the correct backend
 });
 
 const AdminDashboard: React.FC = () => {

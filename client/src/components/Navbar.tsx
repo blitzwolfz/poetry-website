@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/Navbar.scss"; // Assuming your styles are in this file
+import { BASE_URL } from "../constants";
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false); // State to control navbar visibility
@@ -65,12 +66,15 @@ const Navbar: React.FC = () => {
       <div className={`navbar-menu ${isOpen ? "open" : ""}`} ref={menuRef}>
         <ul>
           <li>
-            <a href="/" onClick={() => handleNavigation("/")}>
+            <a href={BASE_URL + "/"} onClick={() => handleNavigation("/")}>
               Home
             </a>
           </li>
           <li>
-            <a href="/poetry" onClick={() => handleNavigation("/poetry")}>
+            <a
+              href={BASE_URL + "/poetry"}
+              onClick={() => handleNavigation("/poetry")}
+            >
               Poetry
             </a>
           </li>
@@ -80,7 +84,10 @@ const Navbar: React.FC = () => {
           {/* Conditionally show the Admin Dashboard link if the user is an admin */}
           {isAdmin && (
             <li>
-              <a href="/admin" onClick={() => handleNavigation("/admin")}>
+              <a
+                href={BASE_URL + "/admin"}
+                onClick={() => handleNavigation("/admin")}
+              >
                 Admin Dashboard
               </a>
             </li>
@@ -89,13 +96,16 @@ const Navbar: React.FC = () => {
           {/* Show Logout as plain text */}
           {isLoggedIn ? (
             <li className="logout">
-              <a href="/login" onClick={handleLogout}>
+              <a href={BASE_URL + "/login"} onClick={handleLogout}>
                 Logout
               </a>
             </li>
           ) : (
             <li>
-              <a href="/login" onClick={() => handleNavigation("/login")}>
+              <a
+                href={BASE_URL + "/login"}
+                onClick={() => handleNavigation("/login")}
+              >
                 Login
               </a>
             </li>

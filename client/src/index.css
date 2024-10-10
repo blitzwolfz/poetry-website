@@ -1,5 +1,8 @@
+@import url("https://fonts.googleapis.com/css2?family=Edu+AU+VIC+WA+NT+Guides:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Edu+AU+VIC+WA+NT+Guides:wght@400;700&display=swap");
+
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Edu AU VIC WA NT Guides", sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -11,6 +14,12 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+html,
+body {
+  overflow-x: hidden; /* Ensures no horizontal scroll across the entire page */
+  overflow-y: auto;
 }
 
 a {
@@ -25,9 +34,18 @@ a:hover {
 body {
   margin: 0;
   display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  justify-content: center; /* Center the content horizontally */
+  align-items: center; /* Center the content vertically */
+  min-width: 100vw; /* Ensure the body takes up the full width */
+  min-height: 100vh; /* Ensure the body takes up the full height */
+  background-color: #ffffff; /* Same background color, adjust as needed */
+}
+
+#root {
+  width: 100%; /* Ensures the root div takes the full width */
+  max-width: 1200px; /* Optional max-width for readability on large screens */
+  margin: 0 auto; /* Center the content within the body */
+  padding: 20px; /* Add some padding for spacing */
 }
 
 h1 {

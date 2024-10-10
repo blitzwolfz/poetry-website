@@ -268,32 +268,34 @@ const AdminDashboard: React.FC = () => {
       {/* User Management */}
       <div className="user-management">
         <h3>Manage Users</h3>
-        <select
-          value={selectedUser?._id || ""}
-          onChange={(e) =>
-            setSelectedUser(
-              users.find((user) => user._id === e.target.value) || null
-            )
-          }
-        >
-          <option value="">Select a user</option>
-          {users.map((user) => (
-            <option key={user._id} value={user._id}>
-              {user.username} {user.isAdmin ? "(Admin)" : ""}
-            </option>
-          ))}
-        </select>
+        <div className="user-selection-actions">
+          <select
+            value={selectedUser?._id || ""}
+            onChange={(e) =>
+              setSelectedUser(
+                users.find((user) => user._id === e.target.value) || null
+              )
+            }
+          >
+            <option value="">Select a user</option>
+            {users.map((user) => (
+              <option key={user._id} value={user._id}>
+                {user.username} {user.isAdmin ? "(Admin)" : ""}
+              </option>
+            ))}
+          </select>
 
-        {selectedUser && (
-          <div className="user-actions">
-            <button onClick={handleDeleteUser}>Delete User</button>
-            {!selectedUser.isAdmin ? (
-              <button onClick={handlePromoteUser}>Make Admin</button>
-            ) : (
-              <button onClick={handleRemoveAdmin}>Remove Admin</button>
-            )}
-          </div>
-        )}
+          {selectedUser && (
+            <div className="action-buttons">
+              <button onClick={handleDeleteUser}>Delete User</button>
+              {!selectedUser.isAdmin ? (
+                <button onClick={handlePromoteUser}>Make Admin</button>
+              ) : (
+                <button onClick={handleRemoveAdmin}>Remove Admin</button>
+              )}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

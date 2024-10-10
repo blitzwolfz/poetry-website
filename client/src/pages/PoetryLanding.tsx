@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/PoetryLanding.scss'; // Assuming this SCSS file contains the styles
+const URL = import.meta.env.VITE_ADDRESS;
 
 interface Poem {
     _id: string;
@@ -18,7 +19,7 @@ const PoetryLanding: React.FC = () => {
     useEffect(() => {
         const fetchPoems = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/poetry');
+                const response = await axios.get(`${URL}/poetry`);
                 setPoems(response.data);
             } catch (error) {
                 console.error('Error fetching poems:', error);

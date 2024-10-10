@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../styles/LoginSignup.scss";
+const URL = import.meta.env.VITE_ADDRESS;
 
 // Create Axios instance with baseURL
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:5000",
+  baseURL: URL,
 });
+
 
 const LoginSignup: React.FC = () => {
   const [isLogin, setIsLogin] = useState(true); // Toggle between Login and Signup

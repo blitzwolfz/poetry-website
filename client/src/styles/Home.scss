@@ -1,28 +1,42 @@
-@import './theme.scss';
+@import "./theme.scss";
 
 .home {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  padding: 50px;
+  height: 100vh; /* Ensure full viewport height */
+  width: 100%; /* Change from 100vw to 100% */
+  text-align: center;
+  padding: 0 5%; /* Reduce padding */
+  box-sizing: border-box; /* Ensure padding is included in width */
+  opacity: 0;
+  animation: fadeIn 2s ease forwards;
 
   h1 {
+    font-size: 5em;
     color: $primary-color;
+    font-family: "Edu AU VIC WA NT Guides", sans-serif;
+    margin-bottom: 40px;
   }
 
-  nav {
-    margin-top: 20px;
+  p {
+    font-size: 2.2em;
+    color: rgb(0, 0, 104);
+    max-width: 90%;
+    line-height: 1.7;
+    font-family: "Caveat", cursive; /* Apply Caveat font */
+    white-space: pre-line; /* Maintain poetry line breaks */
+  }
+}
 
-    a {
-      text-decoration: none;
-      color: $primary-color;
-      font-weight: bold;
-      margin: 0 15px;
-      transition: color 0.3s ease;
-
-      &:hover {
-        color: darken($primary-color, 10%);
-      }
-    }
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

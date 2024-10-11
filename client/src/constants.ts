@@ -1,1 +1,1 @@
-export const BASE_URL = "/poetry-website";
+export const BASE_URL = "";

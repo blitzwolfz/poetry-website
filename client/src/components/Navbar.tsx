@@ -13,11 +13,11 @@ const Navbar: React.FC = () => {
     setIsOpen(!isOpen);
   };
 
-  // Handle navigation and close the menu after navigating
-  const handleNavigation = (path: string) => {
-    navigate(path);
-    setIsOpen(false); // Close the menu after navigating
-  };
+  // // Handle navigation and close the menu after navigating
+  // const handleNavigation = (path: string) => {
+  //   navigate(path);
+  //   setIsOpen(false); // Close the menu after navigating
+  // };
 
   // Handle logout and redirect to login page
   const handleLogout = () => {

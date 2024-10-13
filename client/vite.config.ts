@@ -3,5 +3,5 @@ import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   plugins: [react()],
-  base: "/", // Set to root for custom domain
+  base: "/poetry-website", // Set to root for custom domain
 });

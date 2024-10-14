@@ -71,7 +71,7 @@ const Navbar: React.FC = () => {
             </Link>
           </li>
           <li>
-            <Link to={BASE_URL + "/poetry"} onClick={toggleMenu}>
+            <Link to={"/poetry"} onClick={toggleMenu}>
               Poetry
             </Link>
           </li>

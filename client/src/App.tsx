@@ -31,12 +31,12 @@ const App: React.FC = () => {
         {/* Include the Navbar on all pages */}
         <Navbar />
         <Routes>
-          <Route path={"/"} element={<Home />} />
-          <Route path={"/poetry"} element={<PoetryLanding />} />
-          <Route path={"/poetry/:id"} element={<PoemDetail />} />
-          <Route path={"/login"} element={<LoginSignup />} />
+          <Route path={BASE_URL + "/"} element={<Home />} />
+          <Route path={BASE_URL + "/poetry"} element={<PoetryLanding />} />
+          <Route path={BASE_URL + "/poetry/:id"} element={<PoemDetail />} />
+          <Route path={BASE_URL + "/login"} element={<LoginSignup />} />
           <Route
-            path={"/admin"}
+            path={BASE_URL + "/admin"}
             element={
               <ProtectedAdminRoute>
                 <AdminDashboard />

@@ -66,12 +66,12 @@ const Navbar: React.FC = () => {
       <div className={`navbar-menu ${isOpen ? "open" : ""}`} ref={menuRef}>
         <ul>
           <li>
-            <Link to={"/"} onClick={toggleMenu}>
+            <Link to={BASE_URL + "/"} onClick={toggleMenu}>
               Home
             </Link>
           </li>
           <li>
-            <Link to={"/poetry"} onClick={toggleMenu}>
+            <Link to={BASE_URL + "/poetry"} onClick={toggleMenu}>
               Poetry
             </Link>
           </li>

@@ -32,11 +32,11 @@ const App: React.FC = () => {
         <Navbar />
         <Routes>
           <Route path={"/"} element={<Home />} />
-          <Route path={BASE_URL + "/poetry"} element={<PoetryLanding />} />
-          <Route path={BASE_URL + "/poetry/:id"} element={<PoemDetail />} />
-          <Route path={BASE_URL + "/login"} element={<LoginSignup />} />
+          <Route path={"/poetry"} element={<PoetryLanding />} />
+          <Route path={"/poetry/:id"} element={<PoemDetail />} />
+          <Route path={"/login"} element={<LoginSignup />} />
           <Route
-            path={BASE_URL + "/admin"}
+            path={"/admin"}
             element={
               <ProtectedAdminRoute>
                 <AdminDashboard />

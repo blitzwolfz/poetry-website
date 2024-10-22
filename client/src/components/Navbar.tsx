@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../styles/Navbar.scss"; // Assuming your styles are in this file
 import { BASE_URL } from "../constants";
 
@@ -11,12 +11,6 @@ const Navbar: React.FC = () => {
   // Toggle the menu visibility
   const toggleMenu = () => {
     setIsOpen(!isOpen);
-  };
-
-  // Handle navigation and close the menu after navigating
-  const handleNavigation = (path: string) => {
-    navigate(path);
-    setIsOpen(false); // Close the menu after navigating
   };
 
   // Handle logout and redirect to login page
@@ -66,17 +60,19 @@ const Navbar: React.FC = () => {
       <div className={`navbar-menu ${isOpen ? "open" : ""}`} ref={menuRef}>
         <ul>
           <li>
-            <a href={BASE_URL + "/"} onClick={() => handleNavigation("/")}>
+            <Link to={BASE_URL + "/"} onClick={toggleMenu}>
               Home
-            </a>
+            </Link>
           </li>
           <li>
-            <a
-              href={BASE_URL + "/poetry"}
-              onClick={() => handleNavigation("/poetry")}
-            >
+            <Link to={BASE_URL + "/poetry"} onClick={toggleMenu}>
               Poetry
-            </a>
+            </Link>
+          </li>
+          <li>
+            <Link to={BASE_URL + "/translations"} onClick={toggleMenu}>
+              Translations
+            </Link>
           </li>
         </ul>
 
@@ -84,30 +80,22 @@ const Navbar: React.FC = () => {
           {/* Conditionally show the Admin Dashboard link if the user is an admin */}
           {isAdmin && (
             <li>
-              <a
-                href={BASE_URL + "/admin"}
-                onClick={() => handleNavigation("/admin")}
-              >
+              <Link to={BASE_URL + "/admin"} onClick={toggleMenu}>
                 Admin Dashboard
-              </a>
+              </Link>
             </li>
           )}
 
-          {/* Show Logout as plain text */}
+          {/* Show Logout as a button */}
           {isLoggedIn ? (
             <li className="logout">
-              <a href={BASE_URL + "/login"} onClick={handleLogout}>
-                Logout
-              </a>
+              <button onClick={handleLogout}>Logout</button>
             </li>
           ) : (
             <li>
-              <a
-                href={BASE_URL + "/login"}
-                onClick={() => handleNavigation("/login")}
-              >
+              <Link to={BASE_URL + "/login"} onClick={toggleMenu}>
                 Login
-              </a>
+              </Link>
             </li>
           )}
         </div>

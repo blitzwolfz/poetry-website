@@ -13,6 +13,8 @@ import "./styles/theme.scss";
 import PoemDetail from "./components/PoetryDetail.tsx";
 import Navbar from "./components/Navbar";
 import { BASE_URL } from "./constants.ts";
+import TranslationsLanding from "./pages/TranslationsLanding.tsx";
+import TranslationsDetailPage from "./pages/TranslationsDetailPage.tsx";
 
 // Function to check if the user is an admin
 const isAdmin = () => {
@@ -31,12 +33,17 @@ const App: React.FC = () => {
         {/* Include the Navbar on all pages */}
         <Navbar />
         <Routes>
-          <Route path={BASE_URL + "/"} element={<Home />} />
-          <Route path={BASE_URL + "/poetry"} element={<PoetryLanding />} />
-          <Route path={BASE_URL + "/poetry/:id"} element={<PoemDetail />} />
-          <Route path={BASE_URL + "/login"} element={<LoginSignup />} />
+          <Route path={"/"} element={<Home />} />
+          <Route path={"/poetry"} element={<PoetryLanding />} />
+          <Route path={"/poetry/:id"} element={<PoemDetail />} />
+          <Route path={"/login"} element={<LoginSignup />} />
+          <Route path={"/translations"} element={<TranslationsLanding />} />
           <Route
-            path={BASE_URL + "/admin"}
+            path={"/translations/:id"}
+            element={<TranslationsDetailPage />}
+          />
+          <Route
+            path={"/admin"}
             element={
               <ProtectedAdminRoute>
                 <AdminDashboard />

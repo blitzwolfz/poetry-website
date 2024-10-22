@@ -1,10 +1,9 @@
 .admin-dashboard {
-  max-width: 800px;
-  margin: 0 auto;
+  max-width: auto;
+  margin-right: 2rem;
   padding: 40px;
   background-color: #f5f5f5;
   border-radius: 8px;
-  padding-top: 20%;
   display: grid;
   margin-top: 100px;
 
@@ -16,6 +15,7 @@
 
   form {
     margin-bottom: 40px;
+    justify-content: space-between; /* Spread buttons to left and right */
 
     .centered-button {
       display: flex;
@@ -36,6 +36,31 @@
 
       &:hover {
         background-color: #004494;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+      }
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    /* Reset button with red background */
+    .reset-button {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 25px;
+      padding: 5px 5px;
+      background-color: #e74c3c; /* Red for reset button */
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+
+      &:hover {
+        background-color: #c0392b; /* Darker red on hover */
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
       }
 

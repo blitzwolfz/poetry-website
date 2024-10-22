@@ -1,6 +1,5 @@
 import React from "react";
 import "../styles/Home.scss"; // Import the SCSS for styling
-import { BASE_URL } from "../constants";
 
 const Home: React.FC = () => {
   return (
@@ -21,7 +20,10 @@ const Home: React.FC = () => {
           </p>
         </div>
         <div className="bio-image">
-          <img src={BASE_URL + "/images/paul.jpg"} alt="Paulos L. Ioannou" />
+          <img
+            src="https://github.com/Can1Cyp2/poetry-website/blob/master/client/public/images/paul.jpg?raw=true"
+            alt="Paulos L. Ioannou"
+          />
         </div>
       </div>
     </div>

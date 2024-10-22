@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import PoetryCard from "./PoetryCard";
 import "../styles/PoetryList.scss"; // SCSS for PoetryList
-import { BASE_URL } from "../constants";
 
 interface Poem {
   _id: string;

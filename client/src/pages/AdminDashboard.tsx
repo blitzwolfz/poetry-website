@@ -5,8 +5,6 @@ import "react-quill/dist/quill.snow.css"; // Import Quill styles
 import "../styles/AdminDashboard.scss";
 const URL = import.meta.env.VITE_ADDRESS;
 
-
-
 // Define the Poem and User interface for TypeScript
 interface Poem {
   _id: string;
@@ -71,34 +69,46 @@ const AdminDashboard: React.FC = () => {
   // Handle form submission to add a new poem or update an existing one
   const handleSubmitPoem = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // If contentEnglish or contentGreek is empty, set default text
+    const updatedPoem = {
+      ...newPoem,
+      contentEnglish:
+        newPoem.contentEnglish.trim() === ""
+          ? "This work has no translation yet..."
+          : newPoem.contentEnglish,
+      contentGreek:
+        newPoem.contentGreek.trim() === ""
+          ? "This work has no translation yet..."
+          : newPoem.contentGreek,
+    };
+
     if (editMode && selectedPoem) {
       // Update the poem
       try {
         const response = await axiosInstance.put(
           `/poetry/${selectedPoem._id}`,
-          newPoem
-        ); // Update poem
+          updatedPoem // Pass the updated poem with placeholder text if needed
+        );
         setPoems(
           poems.map((poem) =>
             poem._id === selectedPoem._id ? response.data : poem
           )
-        ); // Update the poem in the state
-        // Clear the form and exit edit mode
+        );
         resetForm(); // Reset the form after updating
       } catch (error) {
         console.error("Error updating poem:", error);
-        setError(error + " Failed to update poem.");
+        setError("Failed to update poem.");
       }
     } else {
       // Create a new poem
       try {
-        const response = await axiosInstance.post("/poetry", newPoem);
+        const response = await axiosInstance.post("/poetry", updatedPoem); // Pass the updated poem
         setPoems([...poems, response.data]); // Add the new poem to the list
-        // Clear the form after creating the poem
-        resetForm();
+        resetForm(); // Clear the form after creating the poem
       } catch (error) {
         console.error("Error adding poem:", error);
-        setError(error + " Failed to add poem.");
+        setError("Failed to add poem.");
       }
     }
   };
@@ -126,11 +136,14 @@ const AdminDashboard: React.FC = () => {
     if (poem) {
       setNewPoem({
         title: poem.title,
-        contentEnglish: poem.contentEnglish,
-        contentGreek: poem.contentGreek,
+        contentEnglish:
+          poem.contentEnglish || "This work has no translation yet...",
+        contentGreek:
+          poem.contentGreek || "This work has no translation yet...",
       });
       setSelectedPoem(poem);
       setEditMode(true); // Enter edit mode
+      setQuillKey((prevKey) => prevKey + 1); // Reset Quill editors with a new key
     }
   };
 
@@ -241,7 +254,27 @@ const AdminDashboard: React.FC = () => {
           value={newPoem.contentGreek}
           onChange={handleContentGreekChange}
         />
-        <button type="submit">{editMode ? "Update Poem" : "Add Poem"}</button>
+
+        {/* Button Container for aligning Add Poem and Reset Poem buttons */}
+        <div className="button-container">
+          <button type="submit">{editMode ? "Update Poem" : "Add Poem"}</button>
+
+          <button
+            type="button"
+            className="reset-button"
+            onClick={() => {
+              if (
+                window.confirm(
+                  "Are you sure you want to reset the poem? This action will clear all fields."
+                )
+              ) {
+                resetForm(); // Call the resetForm function
+              }
+            }}
+          >
+            Reset Poem
+          </button>
+        </div>
       </form>
 
       {/* Poem Management */}

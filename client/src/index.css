@@ -33,12 +33,10 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  justify-content: center; /* Center the content horizontally */
-  align-items: center; /* Center the content vertically */
-  min-width: 100vw; /* Ensure the body takes up the full width */
-  min-height: 100vh; /* Ensure the body takes up the full height */
-  background-color: #ffffff; /* Same background color, adjust as needed */
+  display: block; /* Remove flexbox and use block layout */
+  min-width: 100vw;
+  min-height: 100vh;
+  background-color: #ffffff;
 }
 
 #root {

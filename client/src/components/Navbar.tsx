@@ -13,12 +13,6 @@ const Navbar: React.FC = () => {
     setIsOpen(!isOpen);
   };
 
-  // // Handle navigation and close the menu after navigating
-  // const handleNavigation = (path: string) => {
-  //   navigate(path);
-  //   setIsOpen(false); // Close the menu after navigating
-  // };
-
   // Handle logout and redirect to login page
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -75,6 +69,11 @@ const Navbar: React.FC = () => {
               Poetry
             </Link>
           </li>
+          <li>
+            <Link to={BASE_URL + "/translations"} onClick={toggleMenu}>
+              Translations
+            </Link>
+          </li>
         </ul>
 
         <div className="navbar-bottom">
@@ -87,14 +86,10 @@ const Navbar: React.FC = () => {
             </li>
           )}
 
-          {/* Show Logout as plain text */}
+          {/* Show Logout as a button */}
           {isLoggedIn ? (
             <li className="logout">
-              <button onClick={toggleMenu}>
-                <Link to={BASE_URL + "/login"} onClick={() => handleLogout()}>
-                  Logout
-                </Link>
-              </button>
+              <button onClick={handleLogout}>Logout</button>
             </li>
           ) : (
             <li>

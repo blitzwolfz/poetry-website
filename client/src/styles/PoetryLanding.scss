@@ -1,6 +1,8 @@
-@import './theme.scss';
+@import "./theme.scss";
 
 .poetry-landing {
+  margin-top: 5rem;
+
   .poetry-list {
     list-style: none;
     padding: 0;
@@ -19,8 +21,8 @@
     }
 
     .poem-title {
-      font-size: 2.5rem;  // Larger than H1
-      color: #00203F;
+      font-size: 2.5rem; // Larger than H1
+      color: #00203f;
       margin-bottom: 10px;
     }
 
@@ -30,14 +32,13 @@
     }
 
     .read-more {
-      color: #00203F;
+      color: #00203f;
       font-weight: bold;
       text-decoration: none;
       transition: color 0.3s ease;
       &:hover {
-        color: #ADEFD1;
+        color: #adefd1;
       }
     }
   }
 }
-

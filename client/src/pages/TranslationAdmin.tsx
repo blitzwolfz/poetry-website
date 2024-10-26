@@ -8,6 +8,7 @@ interface Translation {
     _id: string;
     title: string;
     contentType: string;
+    date?: string; // Add date field to interface
 }
 
 const axiosInstance = axios.create({
@@ -18,6 +19,7 @@ const TranslationsDashboard: React.FC = () => {
     const [translations, setTranslations] = useState<Translation[]>([]);
     const [selectedTranslation, setSelectedTranslation] = useState<Translation | null>(null);
     const [title, setTitle] = useState("");
+    const [date, setDate] = useState<string>(""); // Add state for date
     const [file, setFile] = useState<File | null>(null);
     const [editMode, setEditMode] = useState(false);
     const [loading, setLoading] = useState(true);
@@ -52,6 +54,7 @@ const TranslationsDashboard: React.FC = () => {
 
         const formData = new FormData();
         formData.append("title", title);
+        formData.append("date", date); // Append date to FormData
 
         // Append PDF file only if a new one is selected
         if (file) {
@@ -64,7 +67,7 @@ const TranslationsDashboard: React.FC = () => {
                 await axiosInstance.put(`/translations/update/${selectedTranslation._id}`, formData);
                 setTranslations(
                     translations.map((trans) =>
-                        trans._id === selectedTranslation._id ? { ...trans, title } : trans
+                        trans._id === selectedTranslation._id ? { ...trans, title, date } : trans
                     )
                 );
             } else {
@@ -82,6 +85,7 @@ const TranslationsDashboard: React.FC = () => {
     // Reset form fields and exit edit mode
     const resetForm = () => {
         setTitle("");
+        setDate("");
         setFile(null);
         setEditMode(false);
         setSelectedTranslation(null);
@@ -92,6 +96,7 @@ const TranslationsDashboard: React.FC = () => {
         const translation = translations.find((t) => t._id === translationId);
         if (translation) {
             setTitle(translation.title);
+            setDate(translation.date || ""); // Set date in edit mode if available
             setSelectedTranslation(translation);
             setEditMode(true);
         }
@@ -123,6 +128,14 @@ const TranslationsDashboard: React.FC = () => {
                     placeholder="Title"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
+                    required
+                />
+                <input
+                    type="date"
+                    name="date"
+                    placeholder="Date"
+                    value={date}
+                    onChange={(e) => setDate(e.target.value)}
                     required
                 />
                 <input type="file" accept="application/pdf" onChange={handleFileChange} required={!editMode} />

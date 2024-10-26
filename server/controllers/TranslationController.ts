@@ -86,7 +86,7 @@ export const getPDFInfo = async (req: Request, res: Response) => {
 export const updatePDF = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
-        const { title } = req.body;
+        const { title, date } = req.body; // Accept date from request body
         const pdfFile = req.file;
 
         // Find the existing translation document
@@ -99,6 +99,13 @@ export const updatePDF = async (req: Request, res: Response) => {
         // Update title if provided
         if (title) {
             translation.title = title;
+        }
+
+        // Update date if provided
+        if (date) {
+            console.log(date)
+            console.log(new Date(date))
+            translation.createdAt = new Date(date); // Ensure date is in Date format
         }
 
         // Update PDF file if provided

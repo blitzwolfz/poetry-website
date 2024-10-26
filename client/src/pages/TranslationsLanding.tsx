@@ -7,8 +7,7 @@ const URL = import.meta.env.VITE_ADDRESS;
 interface Translation {
   _id: string;
   title: string;
-  contentEnglish: string;
-  contentGreek: string;
+  createdAt: Date,
 }
 
 const TranslationsLanding: React.FC = () => {
@@ -19,6 +18,7 @@ const TranslationsLanding: React.FC = () => {
     const fetchTranslations = async () => {
       try {
         const response = await axios.get(`${URL}/translations/all`);
+        console.log(response);
         setTranslations(response.data);
       } catch (error) {
         console.error("Error fetching translations:", error);
@@ -42,6 +42,7 @@ const TranslationsLanding: React.FC = () => {
                     className="translation-card-link"
                 >
                   <h1 className="translation-title">{translation.title}</h1>
+                  <p>{new Date(translation.createdAt).toLocaleDateString('en-CA', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
                   <p className="read-more">Read More</p>
                 </Link>
               </li>

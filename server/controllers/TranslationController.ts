@@ -66,3 +66,51 @@ export const streamPDF = async (req: Request, res: Response) => {
         res.status(500).json({ message: 'Failed to stream PDF', error });
     }
 };
+
+export const getPDFInfo = async (req: Request, res: Response) => {
+    try {
+        const translation = await Translation.findById(req.params.id);
+
+        if (!translation) {
+            return res.status(404).json({ message: 'Translation not found' });
+        }
+
+        res.contentType(translation.contentType);
+        res.send(translation);
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to stream PDF', error });
+    }
+}
+
+// Update PDF
+export const updatePDF = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        const { title } = req.body;
+        const pdfFile = req.file;
+
+        // Find the existing translation document
+        const translation = await Translation.findById(id);
+
+        if (!translation) {
+            return res.status(404).json({ message: 'Translation not found' });
+        }
+
+        // Update title if provided
+        if (title) {
+            translation.title = title;
+        }
+
+        // Update PDF file if provided
+        if (pdfFile) {
+            translation.pdf = pdfFile.buffer;
+            translation.contentType = pdfFile.mimetype;
+        }
+
+        // Save the updated document
+        await translation.save();
+        res.status(200).json({ message: 'Translation updated successfully' });
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to update translation', error });
+    }
+};

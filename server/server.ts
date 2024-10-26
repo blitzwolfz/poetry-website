@@ -16,7 +16,7 @@ app.use(cors());
 // Mount the user routes
 app.use(userRoutes);
 app.use(poetryRoutes);
-app.use('/translations', translationRoutes);
+app.use(translationRoutes);
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI!, {})

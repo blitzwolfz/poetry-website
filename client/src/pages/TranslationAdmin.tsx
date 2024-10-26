@@ -50,14 +50,13 @@ const TranslationsDashboard: React.FC = () => {
     const handleSubmitTranslation = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (!file) {
-            setError("Please upload a PDF file.");
-            return;
-        }
-
         const formData = new FormData();
         formData.append("title", title);
-        formData.append("pdf", file);
+
+        // Append PDF file only if a new one is selected
+        if (file) {
+            formData.append("pdf", file);
+        }
 
         try {
             if (editMode && selectedTranslation) {

@@ -1,7 +1,9 @@
 .poetry-detail {
+  margin-top: 5rem;
+
   .poem-title {
-    font-size: 2.5rem;  // Larger than H1
-    color: #00203F;
+    font-size: 2.5rem; // Larger than H1
+    color: #00203f;
     margin-bottom: 20px;
   }
 
@@ -16,11 +18,11 @@
     margin-right: 10px;
     padding: 10px 20px;
     border: none;
-    background-color: #00203F;
+    background-color: #00203f;
     color: white;
     cursor: pointer;
     &.active {
-      background-color: #ADEFD1;
+      background-color: #adefd1;
     }
   }
 }

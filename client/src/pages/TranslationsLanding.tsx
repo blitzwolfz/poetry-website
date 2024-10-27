@@ -7,7 +7,7 @@ const URL = import.meta.env.VITE_ADDRESS;
 interface Translation {
   _id: string;
   title: string;
-  createdAt: Date,
+  createdAt: Date;
 }
 
 const TranslationsLanding: React.FC = () => {
@@ -29,26 +29,32 @@ const TranslationsLanding: React.FC = () => {
   }, []);
 
   return (
-      <div className="translations-landing">
-        <h2>Translations Landing</h2>
-        {error && <p className="error-message">{error}</p>}
-        <ul className="translations-list">
-          {translations.map((translation) => (
-              <li key={translation._id} className="translation-card">
-                <Link
-                    to={{
-                      pathname: `/translations/${translation._id}`,
-                    }}
-                    className="translation-card-link"
-                >
-                  <h1 className="translation-title">{translation.title}</h1>
-                  <p>{new Date(translation.createdAt).toLocaleDateString('en-CA', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
-                  <p className="read-more">Read More</p>
-                </Link>
-              </li>
-          ))}
-        </ul>
-      </div>
+    <div className="translations-landing">
+      <h2>Translations Landing</h2>
+      {error && <p className="error-message">{error}</p>}
+      <ul className="translations-list">
+        {translations.map((translation) => (
+          <li key={translation._id} className="translation-card">
+            <Link
+              to={{
+                pathname: `/translations/${translation._id}`,
+              }}
+              className="translation-card-link"
+            >
+              <h1 className="translation-title">{translation.title}</h1>
+              <p>
+                {new Date(translation.createdAt).toLocaleDateString("en-CA", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </p>
+              <p className="read-more">Read More</p>
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 };
 
